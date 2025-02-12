@@ -5,7 +5,8 @@ The output file is a `.obj` file that can be opened in any 3D modeling software 
 Currently works with:
 
 - Players
-- Entities
+- All entities
+- Only display entities
 
 Everything connected to the player or entities like armor, held items, capes, 3d skin layers, etc. is also dumped.
 Files will be located in the `ModelDumps` folder in the game directory.
@@ -13,3 +14,9 @@ Files will be located in the `ModelDumps` folder in the game directory.
 ## Dependencies
 
 - FabricAPI
+
+## License
+
+## Original source code and mod
+[https://github.com/tr7zw/ModelDumper](https://github.com/tr7zw/ModelDumper)
+

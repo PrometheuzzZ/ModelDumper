@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "modeldumperfork",
+  "version": "${version}",
+  "name": "ModelDumper",
+  "description": "Creates .obj files from Minecraft models rendered in-game.",
+  "authors": [
+    "_PrometheuZ_"
+  ],
+  "contact": {
+    "homepage": "https://github.com/PrometheuzzZ",
+    "sources": "https://github.com/PrometheuzzZ/ModelDumper"
+  },
+  "license": "GNU LESSER GENERAL PUBLIC LICENSE",
+  "icon": "assets/modeldumper/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+
+      "ru.promej.modeldumper.client.ModelDumperClient"
+    ]
+  },
+  "mixins": [
+    "modeldumper.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

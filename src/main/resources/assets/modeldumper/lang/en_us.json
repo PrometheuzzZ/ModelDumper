@@ -1,0 +1,13 @@
+{
+    "key.modeldumper.category": "Model Dumper",
+    "key.modeldumper.dumpentities": "Dump Display Entities",
+    "key.modeldumper.dumpallentities": "Dump All Entities",
+    "key.modeldumper.dumpplayer": "Dump Player",
+
+    "text.modeldumper.player.start": "[ModelDumper] Dump player model - %1$s",
+    "text.modeldumper.player.end": "[ModelDumper] Finished! Dumped %1$s players!",
+    "text.modeldumper.allentities.start": "[ModelDumper] Dumping all rendered entity models...",
+    "text.modeldumper.allentities.end": "[ModelDumper] Finished! Dumped <FF003B>%1$s entities!",
+    "text.modeldumper.displayentities.start": "[ModelDumper] Dumping all rendered display entity models...",
+    "text.modeldumper.displayentities.end": "[ModelDumper] Finished! Dumped %1$s display entities!"
+}

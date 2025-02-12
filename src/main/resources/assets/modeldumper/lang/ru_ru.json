@@ -1,0 +1,13 @@
+{
+  "key.modeldumper.category": "ModelDumper",
+  "key.modeldumper.dumpentities": "Дамп дисплейных сущностей",
+  "key.modeldumper.dumpallentities": "Дамп всех сущностей",
+  "key.modeldumper.dumpplayer": "Дамп игрока",
+
+  "text.modeldumper.player.start": "[ModelDumper] Дамп модели игрока - %1$s",
+  "text.modeldumper.player.end": "[ModelDumper] Завершено! Дампировано %1$s моделей игроков!",
+  "text.modeldumper.allentities.start": "[ModelDumper] Дамп всех сущностей...",
+  "text.modeldumper.allentities.end": "[ModelDumper] Завершено! Дампировано <FF003B>%1$s сущностей!",
+  "text.modeldumper.displayentities.start": "[ModelDumper] Дамп всех дисплейных сущностей...",
+  "text.modeldumper.displayentities.end": "[ModelDumper] Завершено! Дампировано %1$s дисплейных сущностей!"
+}

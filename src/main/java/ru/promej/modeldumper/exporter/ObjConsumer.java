@@ -108,6 +108,10 @@ public class ObjConsumer implements VertexConsumer {
         }
     }
 
-    private record VertexData(double x, double y, double z, float u, float v, int color) {}
+    public List<VertexData> getVertexData() {
+        return vertexData;
+    }
+
+    public static record VertexData(double x, double y, double z, float u, float v, int color) {}
 
 }

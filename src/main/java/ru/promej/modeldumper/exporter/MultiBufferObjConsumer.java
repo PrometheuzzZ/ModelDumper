@@ -22,6 +22,7 @@ public class MultiBufferObjConsumer implements VertexConsumerProvider {
     private final File outputFolder;
     private int id = 0;
     private Set<Integer> dumpedTextureIds = new HashSet<>();
+    private List<Part> parts = new ArrayList<>();
 
     public MultiBufferObjConsumer(File outputFolder) {
         this.outputFolder = outputFolder;
@@ -61,6 +62,11 @@ public class MultiBufferObjConsumer implements VertexConsumerProvider {
                 }
 
                 lastConsumer.writeData(objFile, textures);
+                if(!textures.isEmpty()) {
+                    parts.add(new Part(new ArrayList<>(lastConsumer.getVertexData()), textures.get(0)));
+                } else {
+                    parts.add(new Part(new ArrayList<>(lastConsumer.getVertexData()), null));
+                }
                 id++;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -72,6 +78,7 @@ public class MultiBufferObjConsumer implements VertexConsumerProvider {
         saveCurrent();
         lastConsumer = null;
         lastType = null;
+        GlbExporter.export(parts, outputFolder);
     }
 
     @Override
@@ -83,4 +90,6 @@ public class MultiBufferObjConsumer implements VertexConsumerProvider {
         }
         return lastConsumer;
     }
+
+    public static record Part(List<ObjConsumer.VertexData> vertices, String texture) {}
 }

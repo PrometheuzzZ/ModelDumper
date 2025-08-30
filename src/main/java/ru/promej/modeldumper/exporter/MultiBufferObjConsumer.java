@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MultiBufferObjConsumer implements VertexConsumerProvider {
@@ -30,34 +32,36 @@ public class MultiBufferObjConsumer implements VertexConsumerProvider {
     private void saveCurrent() {
         if(lastConsumer != null) {
             try {
-
-                lastConsumer.writeData(new File(outputFolder, id++ + ".obj"));
+                File objFile = new File(outputFolder, "part_" + id + ".obj");
+                List<String> textures = new ArrayList<>();
                 lastType.startDrawing();
-                int textureId = 0;
                 int shaderId = 0;
-                do {
-                    textureId = RenderSystem.getShaderTexture(shaderId);
+                while(true) {
+                    int textureId = RenderSystem.getShaderTexture(shaderId);
                     shaderId++;
-                    if(textureId == 0 || dumpedTextureIds.contains(textureId)) {
+                    if(textureId == 0) {
                         break;
                     }
-                    dumpedTextureIds.add(textureId);
-                    GL15.glBindTexture(GL15.GL_TEXTURE_2D, textureId);
-                    float width = GL15.glGetTexLevelParameterf(GL15.GL_TEXTURE_2D, 0, GL15.GL_TEXTURE_WIDTH);
-                    float height = GL15.glGetTexLevelParameterf(GL15.GL_TEXTURE_2D, 0, GL15.GL_TEXTURE_HEIGHT);
-                    if(width <= 0 || height <= 0) {
-                        continue;
-                    }
-                    try(NativeImage img = new NativeImage(NativeImage.Format.RGBA, (int)width, (int)height, false)){
-                       img.loadFromTextureImage(0, false);
-                       img.writeTo(new File(outputFolder, "texture_" + textureId + ".png"));
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    String texName = "texture_" + textureId + ".png";
+                    textures.add(texName);
+                    if(!dumpedTextureIds.contains(textureId)) {
+                        dumpedTextureIds.add(textureId);
+                        GL15.glBindTexture(GL15.GL_TEXTURE_2D, textureId);
+                        float width = GL15.glGetTexLevelParameterf(GL15.GL_TEXTURE_2D, 0, GL15.GL_TEXTURE_WIDTH);
+                        float height = GL15.glGetTexLevelParameterf(GL15.GL_TEXTURE_2D, 0, GL15.GL_TEXTURE_HEIGHT);
+                        if(width > 0 && height > 0) {
+                            try(NativeImage img = new NativeImage(NativeImage.Format.RGBA, (int)width, (int)height, false)){
+                                img.loadFromTextureImage(0, false);
+                                img.writeTo(new File(outputFolder, texName));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 }
 
-                while(textureId != 0);
-
+                lastConsumer.writeData(objFile, textures);
+                id++;
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -33,12 +33,12 @@ public class MultiBufferObjConsumer implements VertexConsumerProvider {
 
                 lastConsumer.writeData(new File(outputFolder, id++ + ".obj"));
                 lastType.startDrawing();
-                int textureId = 0;
-                int shaderId = 0;
-                do {
-                    textureId = RenderSystem.getShaderTexture(shaderId);
-                    shaderId++;
-                    if(textureId == 0 || dumpedTextureIds.contains(textureId)) {
+                for (int shaderId = 0; shaderId < 16; shaderId++) {
+                    int textureId = RenderSystem.getShaderTexture(shaderId);
+                    if (textureId == 0) {
+                        continue;
+                    }
+                    if(dumpedTextureIds.contains(textureId)) {
                         break;
                     }
                     dumpedTextureIds.add(textureId);
@@ -55,8 +55,6 @@ public class MultiBufferObjConsumer implements VertexConsumerProvider {
                         e.printStackTrace();
                     }
                 }
-
-                while(textureId != 0);
 
             } catch (IOException e) {
                 e.printStackTrace();

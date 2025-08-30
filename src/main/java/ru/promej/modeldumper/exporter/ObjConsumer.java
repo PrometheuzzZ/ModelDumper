@@ -69,13 +69,23 @@ public class ObjConsumer implements VertexConsumer {
     }
 
 
-    public void writeData(File location) throws IOException {
+    public void writeData(File location, List<String> textures) throws IOException {
 
         if(location.exists()) {
             location.delete();
         }
 
+        String name = location.getName();
+        String base = name.substring(0, name.lastIndexOf('.'));
+        File mtl = new File(location.getParentFile(), base + ".mtl");
+
         try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(location)))){
+            if(!textures.isEmpty()) {
+                out.write("mtllib " + mtl.getName() + "\n");
+                String material = textures.get(0);
+                material = material.substring(0, material.lastIndexOf('.'));
+                out.write("usemtl " + material + "\n");
+            }
             for(VertexData vertex : vertexData) {
                 out.write("v " + vertex.x + " " + vertex.y + " " + vertex.z + "\n");
             }
@@ -85,13 +95,23 @@ public class ObjConsumer implements VertexConsumer {
             for(int i = 1; i <= vertexData.size(); i+=4) {
                 out.write("f " + i + "/" + i + " " + (i+1) + "/"+ (i+1) + " " + (i+2) + "/"+ (i+2) +" " + (i+3) + "/"+ (i+3) +"\n");
             }
+        }
 
-
-
-
+        if(!textures.isEmpty()) {
+            try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(mtl)))) {
+                for(String tex : textures) {
+                    String material = tex.substring(0, tex.lastIndexOf('.'));
+                    out.write("newmtl " + material + "\n");
+                    out.write("map_Kd " + tex + "\n\n");
+                }
+            }
         }
     }
 
-    private record VertexData(double x, double y, double z, float u, float v, int color) {}
+    public List<VertexData> getVertexData() {
+        return vertexData;
+    }
+
+    public static record VertexData(double x, double y, double z, float u, float v, int color) {}
 
 }

@@ -102,7 +102,9 @@ public class ObjConsumer implements VertexConsumer {
                 for(String tex : textures) {
                     String material = tex.substring(0, tex.lastIndexOf('.'));
                     out.write("newmtl " + material + "\n");
-                    out.write("map_Kd " + tex + "\n\n");
+                    out.write("map_Kd " + tex + "\n");
+                    // Explicit alpha map so OBJ loaders respect transparency
+                    out.write("map_d " + tex + "\n\n");
                 }
             }
         }

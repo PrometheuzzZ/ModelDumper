@@ -38,8 +38,11 @@ public class GlbExporter {
 
             // one sampler with NEAREST filtering for pixel art
             JsonObject sampler = new JsonObject();
-            sampler.addProperty("magFilter", 9728);
-            sampler.addProperty("minFilter", 9728);
+            sampler.addProperty("magFilter", 9728); // GL_NEAREST
+            sampler.addProperty("minFilter", 9728); // GL_NEAREST
+            // avoid texture bleeding by clamping
+            sampler.addProperty("wrapS", 33071); // GL_CLAMP_TO_EDGE
+            sampler.addProperty("wrapT", 33071); // GL_CLAMP_TO_EDGE
             samplers.add(sampler);
             int samplerIndex = 0;
 

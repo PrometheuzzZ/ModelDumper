@@ -14,35 +14,16 @@ import java.util.List;
 
 public class ObjConsumer implements VertexConsumer {
 
-    private double x,y,z;
-    private float u,v;
-    private int color;
-
-    private List<VertexData> vertexData = new ArrayList<>();
+    private final List<VertexData> vertexData = new ArrayList<>();
 
     @Override
     public VertexConsumer vertex(float x, float y, float z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        // Unused for the batched vertex method but required by the interface
         return this;
     }
 
-
     @Override
-    public void vertex(float x, float y, float z, int color, float u, float v, int overlay, int light, float normalX, float normalY, float normalZ) {
-        this.vertex(x, y, z);
-        this.color(color);
-        this.texture(u, v);
-        this.overlay(overlay);
-        this.light(light);
-        this.normal(normalX, normalY, normalZ);
-        vertexData.add(new VertexData(x, y, z, u, v, color));
-    }
-
-
-    @Override
-    public VertexConsumer color(int i, int j, int k, int l) {
+    public VertexConsumer color(int r, int g, int b, int a) {
         return this;
     }
 
@@ -53,8 +34,6 @@ public class ObjConsumer implements VertexConsumer {
 
     @Override
     public VertexConsumer overlay(int u, int v) {
-        this.u = u;
-        this.v = v;
         return this;
     }
 
@@ -66,6 +45,11 @@ public class ObjConsumer implements VertexConsumer {
     @Override
     public VertexConsumer normal(float f, float g, float h) {
         return this;
+    }
+
+    @Override
+    public void vertex(float x, float y, float z, int color, float u, float v, int overlay, int light, float normalX, float normalY, float normalZ) {
+        vertexData.add(new VertexData(x, y, z, u, v, color));
     }
 
 

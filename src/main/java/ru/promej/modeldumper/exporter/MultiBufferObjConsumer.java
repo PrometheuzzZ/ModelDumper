@@ -5,7 +5,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.texture.NativeImage;
-import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL11;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,11 +45,11 @@ public class MultiBufferObjConsumer implements VertexConsumerProvider {
                     textures.add(texName);
                     if(!dumpedTextureIds.contains(textureId)) {
                         dumpedTextureIds.add(textureId);
-                        GL15.glBindTexture(GL15.GL_TEXTURE_2D, textureId);
-                        float width = GL15.glGetTexLevelParameterf(GL15.GL_TEXTURE_2D, 0, GL15.GL_TEXTURE_WIDTH);
-                        float height = GL15.glGetTexLevelParameterf(GL15.GL_TEXTURE_2D, 0, GL15.GL_TEXTURE_HEIGHT);
+                        GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureId);
+                        int width = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH);
+                        int height = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_HEIGHT);
                         if(width > 0 && height > 0) {
-                            try(NativeImage img = new NativeImage(NativeImage.Format.RGBA, (int)width, (int)height, false)){
+                            try(NativeImage img = new NativeImage(NativeImage.Format.RGBA, width, height, false)){
                                 img.loadFromTextureImage(0, false);
                                 img.writeTo(new File(outputFolder, texName));
                             } catch (IOException e) {
